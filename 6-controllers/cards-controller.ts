@@ -9,7 +9,13 @@ import { getCardById, getCards, addCard, updateCard, deleteCard, getAllUserCards
 import fs from 'fs'
 
 export const cardsRouter = express.Router();
-
+cardsRouter.get('/test', async (req,res,next) => {
+    try{
+        res.json("test");
+    } catch(e){
+        console.log(e);
+    }
+})
 // cardsRouter.get('/cards', verifyUser([UserRole.Admin, UserRole.User, UserRole.Viewer]), async (req, res, next) => {
 cardsRouter.get('/cards', async (req, res, next) => {
     try {
