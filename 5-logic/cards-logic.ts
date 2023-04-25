@@ -9,18 +9,18 @@ import { CardModel } from "../4-models/CardModel";
 // }
 
 export async function getCards(): Promise<CardModel[]>{
-    const query = "SELECT * FROM businesscard.cards";
+    const query = "SELECT * FROM cards";
     const [rows] = await execute<CardModel[]>(query);
     return rows
 }
 export async function getAllUserCards(userid: number): Promise<CardModel[]>{
-    const query = "SELECT * FROM businesscard.cards WHERE userid = ?";
+    const query = "SELECT * FROM cards WHERE userid = ?";
     const [rows] = await execute<CardModel[]>(query, [userid]);
     return rows
 }
 
 export async function getCardById(id: number): Promise<CardModel>{
-    const query = "SELECT * FROM businesscard.cards WHERE id = ?";
+    const query = "SELECT * FROM cards WHERE id = ?";
     const [rows] = await execute<CardModel[]>(query, [id]);
     if(rows.length === 0) return null;
     // rows[0].image = path.resolve('1-assets/' + rows[0].image)
@@ -36,9 +36,9 @@ export async function addCard( userid: number, businessName: string, businessDes
     if(!iconsColor) {
         iconsColor = "undefined"
     }
-    const query = "INSERT INTO businesscard.cards( userid, businessName, businessDescription, phone, email, location, templateNum, website, facebook , image, github, twitter, iconsColor ) VALUES(?,?, ?, ?, ?,?, ?, ?,?, ?, ?,?, ?); ";
+    const query = "INSERT INTO cards( userid, businessName, businessDescription, phone, email, location, templateNum, website, facebook , image, github, twitter, iconsColor ) VALUES(?,?, ?, ?, ?,?, ?, ?,?, ?, ?,?, ?); ";
     
-    // const query = `INSERT INTO businesscard.cards( userid, templateNum, businessName, businessDescription, phone, email, location, website, facebook ) VALUES('${userid}', '${template}', '${businessName}', '${businessDescription}','${phone}', '${email}', '${location}', '${website}', '${facebook}'); `;
+    // const query = `INSERT INTO cards( userid, templateNum, businessName, businessDescription, phone, email, location, website, facebook ) VALUES('${userid}', '${template}', '${businessName}', '${businessDescription}','${phone}', '${email}', '${location}', '${website}', '${facebook}'); `;
     const [results] = await execute<OkPacket>(query, [userid, businessName, businessDescription, phone, email, location, template, website, facebook,image, github, twitter, iconsColor])
     // console.log(results);
     const id = results.insertId;
@@ -63,8 +63,8 @@ export async function addCard( userid: number, businessName: string, businessDes
 
 
 export async function deleteCard(id: number) {
-    // const query = `INSERT INTO businesscard.cards( userid ) VALUES('${id}'); `;
-    const query = `DELETE FROM businesscard.cards WHERE id = ?; `;
+    // const query = `INSERT INTO cards( userid ) VALUES('${id}'); `;
+    const query = `DELETE FROM cards WHERE id = ?; `;
     const [results] = await execute<OkPacket>(query,[id])
     // console.log(results);
 
@@ -77,7 +77,7 @@ export async function updateCard(id: number, cardBody: CardModel) {
 console.log(id);
 
     const { businessName, businessDescription, phone, email, location, website, facebook, instagram, twitter, github } = cardBody
-    const query = `UPDATE businesscard.cards SET businessName = "${businessName}", businessDescription = "${businessDescription}", phone = "${phone}", email = "${email}", location = "${location}", website = "${website}", facebook = "${facebook}", github = "${github}", twitter = "${twitter}", instagram = "${instagram}" WHERE id = ${id}`
+    const query = `UPDATE cards SET businessName = "${businessName}", businessDescription = "${businessDescription}", phone = "${phone}", email = "${email}", location = "${location}", website = "${website}", facebook = "${facebook}", github = "${github}", twitter = "${twitter}", instagram = "${instagram}" WHERE id = ${id}`
     const [results] = await execute<OkPacket>(query)
     console.log(results);
     
