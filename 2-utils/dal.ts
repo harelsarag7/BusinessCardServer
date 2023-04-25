@@ -17,7 +17,7 @@ const pool = mysql.createPool({
     // queueLimit: 0
   });
 
-  export function execute<T>(query: string, params?: any[]){
-    return pool.execute<T & RowDataPacket[]>(query, params)
+  export async function execute<T>(query: string, params?: any[]){
+    return await pool.execute<T & RowDataPacket[]>(query, params)
   }
 
