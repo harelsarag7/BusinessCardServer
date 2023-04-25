@@ -133,6 +133,7 @@ cardsRouter.post('/cards', async (req, res) => {
 cardsRouter.put('/editcard/:id', async (req, res, next) => {
     const id = +req.params.id;
     const body = req.body
+    console.log(req.body);
     
     try {
         const result = await updateCard(id, body);
