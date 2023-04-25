@@ -7,7 +7,7 @@ import { cardsRouter } from './6-controllers/cards-controller';
 import cors from "cors" 
 import fileUpload from 'express-fileupload';
 import * as dotenv from 'dotenv'
-dotenv.config({ path: process.env.NODE_ENV === "dev" ? ".env" : ".env.prod" });
+dotenv.config({ path: process.env.NODE_ENV === "dev" ? ".env" : ".env" });
 
 
 const server = express();

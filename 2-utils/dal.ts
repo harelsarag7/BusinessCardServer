@@ -1,7 +1,7 @@
 // import * as dotenv from 'dotenv'
 // dotenv.config({ path: process.env.NODE_ENV === "dev" ? ".env" : ".env.prod" });
 import * as dotenv from 'dotenv'
-dotenv.config({ path: process.env.NODE_ENV === "dev" ? ".env" : ".env.prod" });
+dotenv.config({ path: process.env.NODE_ENV === "dev" ? ".env" : ".env" });
 // console.log(process.env);
 
 import mysql, { RowDataPacket } from "mysql2/promise";
