@@ -76,10 +76,12 @@ export async function deleteCard(id: number) {
 export async function updateCard(id: number, cardBody: CardModel) {
 console.log(id);
 
-    const { businessName, businessDescription, phone, email, location, website, facebook } = cardBody
-    const query = `UPDATE businesscard.cards SET businessName = "${businessName}", businessDescription = "${businessDescription}", phone = "${phone}", email = "${email}", location = "${location}", website = "${website}", facebook = "${facebook}" WHERE id = ${id}`
+    const { businessName, businessDescription, phone, email, location, website, facebook, instagram, twitter, github } = cardBody
+    const query = `UPDATE businesscard.cards SET businessName = "${businessName}", businessDescription = "${businessDescription}", phone = "${phone}", email = "${email}", location = "${location}", website = "${website}", facebook = "${facebook}", github = "${github}", twitter = "${twitter}", instagram = "${instagram}" WHERE id = ${id}`
     const [results] = await execute<OkPacket>(query)
     console.log(results);
     
     return results;
 }
+
+// instagram twitter github 
