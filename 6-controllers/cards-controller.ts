@@ -86,6 +86,8 @@ cardsRouter.post('/cards', async (req, res) => {
     // console.log(req.files);
     const userid = +req.body.userid;
     // console.log(userid);
+    console.log(req.body.businessName);
+    
     const businessName = req.body.businessName;
     const businessDescription = req.body.businessDescription;
     const image = req.body.image;
