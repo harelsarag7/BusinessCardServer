@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { ValidationError } from './ValidationError';
 
 export interface CardModel {
-    id: number;
+    id: string;
     userId: number;
     templateNum: number;
     businessName: string;

@@ -39,24 +39,29 @@ cardsRouter.get('/cards/:userid', async (req, res, next) => {
 
 
 
-cardsRouter.get('/card/:id([0-9]+)', async (req, res, next) => {
+cardsRouter.get('/card/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
-        const card = await getCardById(+id);
+        const card = await getCardById(id);
         res.json(card)
     } catch (e) {
         next(new ResourceNotFoundError());
     }
 });
-cardsRouter.get('/card/image/:id([0-9]+)', async (req, res, next) => {
+cardsRouter.get('/card/image/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
-        const card = await getCardById(+id);
-        res.sendFile(path.join(__dirname, '..', '1-assets', 'images', id + path.extname(card.image)) )
+        const card = await getCardById(id);
+
+        // // Set the Cache-Control header to cache the image for 1 day
+        res.setHeader('Cache-Control', 'public, max-age=31536000');
+
+        res.sendFile(path.join(__dirname, '..', '1-assets', 'images', id + path.extname(card.image)));
     } catch (e) {
         next(new ResourceNotFoundError());
     }
 });
+
 
 
 
@@ -133,7 +138,7 @@ cardsRouter.post('/cards', async (req, res) => {
 
 // cardsRouter.put('/cards/:id', verifyUser([UserRole.Admin]), async (req, res, next) => {
 cardsRouter.put('/editcard/:id', async (req, res, next) => {
-    const id = +req.params.id;
+    const id = req.params.id;
     const body = req.body
     console.log(req.body);
     
@@ -146,7 +151,7 @@ cardsRouter.put('/editcard/:id', async (req, res, next) => {
 });
 
 cardsRouter.delete('/cards/:id', async (req, res) => {
-    const id = +req.params.id;
+    const id = req.params.id;
     await deleteCard(id);
     res.sendStatus(204);
 });

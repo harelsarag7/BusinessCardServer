@@ -1,8 +1,8 @@
 // import { dal } from "../2-utils/dal";
 import { OkPacket } from "mysql2/promise";
-import * as path from "path";
 import { execute } from "../2-utils/dal";
 import { CardModel } from "../4-models/CardModel";
+import uniqid from 'uniqid';
 
 // export function getCards() {
 //     return dal.getAllCards();
@@ -19,7 +19,7 @@ export async function getAllUserCards(userid: number): Promise<CardModel[]>{
     return rows
 }
 
-export async function getCardById(id: number): Promise<CardModel>{
+export async function getCardById(id: string): Promise<CardModel>{
     const query = "SELECT * FROM cards WHERE id = ?";
     const [rows] = await execute<CardModel[]>(query, [id]);
     if(rows.length === 0) return null;
@@ -36,12 +36,12 @@ export async function addCard( userid: number, businessName: string, businessDes
     if(!iconsColor) {
         iconsColor = "undefined"
     }
-    const query = "INSERT INTO cards( userid, businessName, businessDescription, phone, email, location, templateNum, website, facebook , image, github, twitter, iconsColor ) VALUES(?,?, ?, ?, ?,?, ?, ?,?, ?, ?,?, ?); ";
+    const id = uniqid()
+    const query = "INSERT INTO cards( id, userid, businessName, businessDescription, phone, email, location, templateNum, website, facebook , image, github, twitter, iconsColor ) VALUES(?, ?,?, ?, ?, ?,?, ?, ?,?, ?, ?,?, ?); ";
     
     // const query = `INSERT INTO cards( userid, templateNum, businessName, businessDescription, phone, email, location, website, facebook ) VALUES('${userid}', '${template}', '${businessName}', '${businessDescription}','${phone}', '${email}', '${location}', '${website}', '${facebook}'); `;
-    const [results] = await execute<OkPacket>(query, [userid, businessName, businessDescription, phone, email, location, template, website, facebook,image, github, twitter, iconsColor])
+    const [results] = await execute<OkPacket>(query, [id, userid, businessName, businessDescription, phone, email, location, template, website, facebook,image, github, twitter, iconsColor])
     // console.log(results);
-    const id = results.insertId;
     return {
         id,
         userid,
@@ -62,7 +62,7 @@ export async function addCard( userid: number, businessName: string, businessDes
 }
 
 
-export async function deleteCard(id: number) {
+export async function deleteCard(id: string) {
     // const query = `INSERT INTO cards( userid ) VALUES('${id}'); `;
     const query = `DELETE FROM cards WHERE id = ?; `;
     const [results] = await execute<OkPacket>(query,[id])
@@ -73,7 +73,7 @@ export async function deleteCard(id: number) {
 
 
 
-export async function updateCard(id: number, cardBody: CardModel) {
+export async function updateCard(id: string, cardBody: CardModel) {
 console.log(id);
 
     const { businessName, businessDescription, phone, email, location, website, facebook, instagram, twitter, github } = cardBody
